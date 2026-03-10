@@ -200,8 +200,10 @@ ENV NODE_ENV=production
 # Security hardening: Run as non-root user
 # The node:22-bookworm image includes a 'node' user (uid 1000)
 # This reduces the attack surface by preventing container escape via root privileges
+# 在 USER node 之前
+RUN mkdir -p /data/.openclaw && chown -R node:node /data && chmod 755 /data
+# 然后再切换用户
 USER node
-RUN mkdir -p /data/.openclaw
 
 # Start gateway server with default config.
 # Binds to loopback (127.0.0.1) by default for security.
